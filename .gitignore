@@ -57,3 +57,11 @@ typings/
 # dotenv environment variables file
 .env
 
+# Angular 2
+system-config.js*
+app/**/*.js
+app/**/*.map
+bower_components
+aot/*
+dist/*
+yarn.lock

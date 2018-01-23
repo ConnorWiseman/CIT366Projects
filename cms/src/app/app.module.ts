@@ -14,7 +14,7 @@ import { HeaderComponent } from './header.component';
     AppComponent,
     ContactsComponent,
     ContactListComponent,
-    ContactsDetailComponent,
+    ContactDetailComponent,
     HeaderComponent
   ],
   imports: [

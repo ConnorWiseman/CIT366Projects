@@ -1,4 +1,5 @@
-# Cms
+# CMS
+> For Brother Jackson's CIT366 (Full Stack Web Development) course.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.4.
 

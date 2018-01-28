@@ -1,17 +1,11 @@
-<cms-header></cms-header>
+<cms-header (selectedFeatureEvent)="selectedFeature = $event"></cms-header>
 
-<div class="container mt-5">
-  <cms-contacts></cms-contacts>
+<div class="container mb-5" [ngSwitch]="selectedFeature">
+  <cms-documents *ngSwitchCase="'documents'"></cms-documents>
+  <!--
+    There is no MessagesComponent; the instructions only have us create
+    MessageListComponent (and company) in a new directory called messages.
+  -->
+  <cms-message-list *ngSwitchCase="'messages'"></cms-message-list>
+  <cms-contacts *ngSwitchCase="'contacts'"></cms-contacts>
 </div>
-
-<!--
-<div class="jumbotron">
-  <h1 class="display-3">Hello, world!</h1>
-  <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-  <hr class="my-4">
-  <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-  <p class="lead">
-    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-  </p>
-</div>
--->

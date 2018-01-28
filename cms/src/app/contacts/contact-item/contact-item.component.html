@@ -1,0 +1,14 @@
+<a
+  href="#"
+  class="row align-items-center pt-3 pb-3 m-3 border rounded unstyled-link"
+  (click)="onSelected()">
+  <div class="col-9">
+    <h5>{{ contact.name }}</h5>
+  </div>
+  <div class="col-3 text-right">
+    <img
+      class="contact-image img-responsive"
+      src="{{ contact.imageUrl }}"
+      alt="{{ contact.name }}'s picture">
+  </div>
+</a>

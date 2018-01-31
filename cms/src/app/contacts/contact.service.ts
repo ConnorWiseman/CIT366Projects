@@ -17,12 +17,8 @@ export class ContactService {
   }
 
   getContact(id: string): Contact {
-    this.contacts.forEach((contact) => {
-      if (contact.id === id) {
-        return contact;
-      }
-    });
-
-    return null;
+    return this.contacts.filter((contact: Contact) => {
+      return contact.id === id;
+    })[0] || null;
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Contact } from '../contact.model';
 import { ContactService } from '../contact.service';
@@ -8,8 +8,6 @@ import { ContactService } from '../contact.service';
   templateUrl: './contact-list.component.html'
 })
 export class ContactListComponent implements OnInit {
-  @Output() contactWasSelected = new EventEmitter<Contact>();
-
   contactService: ContactService = null;
   contacts: Contact[] = [];
 
@@ -17,6 +15,7 @@ export class ContactListComponent implements OnInit {
     this.contactService = cs;
     this.contacts = this.contactService.getContacts();
   }
+  
   ngOnInit() { }
 
   onContactSelected(contact: Contact) {

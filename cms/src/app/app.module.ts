@@ -21,6 +21,7 @@ import { DropdownDirective } from './shared/dropdown.directive';
 
 
 import { ContactService } from './contacts/contact.service';
+import { DocumentService } from './documents/document.service';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { ContactService } from './contacts/contact.service';
     BrowserModule
   ],
   providers: [
-    ContactService
+    ContactService,
+    DocumentService
   ],
   bootstrap: [
     AppComponent

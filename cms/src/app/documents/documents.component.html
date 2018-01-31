@@ -1,8 +1,12 @@
 <div class="row">
-  <div class="col-md-3 mt-5">
-    <cms-document-list></cms-document-list>
+  <div class="col-md-7 mt-5">
+    <cms-document-list
+      (selectedDocumentEvent)="selectedDocument = $event"></cms-document-list>
   </div>
-  <div class="col-md-9 mt-5">
-    <cms-document-detail></cms-document-detail>
+  <div class="col-md-5 mt-5">
+    <cms-document-detail
+      *ngIf="selectedDocument; else blank"
+      [document]="selectedDocument"></cms-document-detail>
+    <ng-template #blank></ng-template>
   </div>
 </div>

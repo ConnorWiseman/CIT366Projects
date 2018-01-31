@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
 
 import { Message } from '../message.model';
+import { MessageService } from '../message.service';
 
 @Component({
   selector: 'cms-message-edit',
@@ -13,16 +14,23 @@ export class MessageEditComponent implements OnInit {
   @ViewChild('subjectInput') subjectInputRef: ElementRef;
   @ViewChild('messageInput') messageInputRef: ElementRef;
 
-  currentId: number = 1;
-  currentSender: string = 'Connor';
+  messageService: MessageService = null;
 
-  constructor() { }
+  currentId: number = 1;
+  currentSender: string = '7';
+  // This part threw me for a loop. Naming it "currentSenderId" in the initial
+  // instructions might be a helpful adjustment!
+
+  constructor(private ms: MessageService) {
+    this.messageService = ms;
+  }
+
   ngOnInit() { }
 
   onSendMessage() {
     this.subject = this.subjectInputRef.nativeElement.value;
     this.msgText = this.messageInputRef.nativeElement.value;
-    this.addMessageEvent.emit(new Message(String(this.currentId++), this.subject,
+    this.messageService.addMessage(new Message(String(this.currentId++), this.subject,
       this.msgText, this.currentSender));
     this.onClear();
   }

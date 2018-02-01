@@ -14,16 +14,12 @@ export class MessageEditComponent implements OnInit {
   @ViewChild('subjectInput') subjectInputRef: ElementRef;
   @ViewChild('messageInput') messageInputRef: ElementRef;
 
-  messageService: MessageService = null;
-
   currentId: number = 1;
   currentSender: string = '7';
   // This part threw me for a loop. Naming it "currentSenderId" in the initial
   // instructions might be a helpful adjustment!
 
-  constructor(private ms: MessageService) {
-    this.messageService = ms;
-  }
+  constructor(private messageService: MessageService) { }
 
   ngOnInit() { }
 

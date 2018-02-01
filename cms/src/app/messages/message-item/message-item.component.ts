@@ -13,12 +13,9 @@ import { ContactService } from '../../contacts/contact.service';
 })
 export class MessageItemComponent implements OnInit {
   @Input() public message: Message;
-  contactService: ContactService = null;
   messageSender: string;
 
-  constructor(private cs: ContactService) {
-    this.contactService = cs;
-  }
+  constructor(private contactService: ContactService) { }
 
   ngOnInit() {
     let contact: Contact = this.contactService.getContact(this.message.sender);

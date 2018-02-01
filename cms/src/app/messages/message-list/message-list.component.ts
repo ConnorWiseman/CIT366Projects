@@ -8,11 +8,9 @@ import { MessageService } from '../message.service';
   templateUrl: './message-list.component.html'
 })
 export class MessageListComponent implements OnInit {
-  messageService: MessageService = null;
   messages: Message[] = [];
 
-  constructor(private ms: MessageService) {
-    this.messageService = ms;
+  constructor(private messageService: MessageService) {
     this.messages = this.messageService.getMessages();
   }
 

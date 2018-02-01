@@ -8,14 +8,12 @@ import { ContactService } from '../contact.service';
   templateUrl: './contact-list.component.html'
 })
 export class ContactListComponent implements OnInit {
-  contactService: ContactService = null;
   contacts: Contact[] = [];
 
-  constructor(private cs: ContactService) {
-    this.contactService = cs;
+  constructor(private contactService: ContactService) {
     this.contacts = this.contactService.getContacts();
   }
-  
+
   ngOnInit() { }
 
   onContactSelected(contact: Contact) {

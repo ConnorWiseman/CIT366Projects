@@ -5,9 +5,9 @@
         <h3 class="float-left">{{ document.name }}</h3>
 
         <div class="float-right">
-          <a class="btn btn-primary btn-sm mt-1" href="{{ document.url }}" role="button">View</a>
-          <a class="btn btn-info btn-sm mt-1" href="#" role="button">Edit</a>
-          <a class="btn btn-danger btn-sm mt-1" href="#" role="button">Delete</a>
+          <a class="btn btn-primary btn-sm mt-1" (click)="onView()" role="button">View</a>
+          <a class="btn btn-info btn-sm mt-1" routerLink="/documents/{{ document.id }}/edit" role="button">Edit</a>
+          <a class="btn btn-danger btn-sm mt-1" (click)="onDelete()" role="button">Delete</a>
         </div>
       </div>
     </div>

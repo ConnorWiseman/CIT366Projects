@@ -25,6 +25,9 @@ import { DocumentService } from './documents/document.service';
 import { MessageService } from './messages/message.service';
 
 
+import { AppRoutingModule } from './app-routing.module';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +46,8 @@ import { MessageService } from './messages/message.service';
     DropdownDirective
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    AppRoutingModule
   ],
   providers: [
     ContactService,

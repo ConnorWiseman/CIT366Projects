@@ -10,8 +10,8 @@
         <img class="contact-image" src="{{ contact.imageUrl }}">
       </div>
       <div class="col text-right">
-        <a class="btn btn-primary btn-sm mt-4" href="#" role="button">Edit</a>
-        <a class="btn btn-danger btn-sm mt-4" href="#" role="button">Delete</a>
+        <a class="btn btn-primary btn-sm mt-4" routerLink="/contacts/{{ contact.id }}/edit" href="#" role="button">Edit</a>
+        <a class="btn btn-danger btn-sm mt-4" (click)="onDelete()" role="button">Delete</a>
       </div>
     </div>
   </div>

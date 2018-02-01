@@ -15,6 +15,7 @@ import { MessageItemComponent } from './messages/message-item/message-item.compo
 import { MessageEditComponent } from './messages/message-edit/message-edit.component';
 import { MessageListComponent } from './messages/message-list/message-list.component';
 import { DocumentItemComponent } from './documents/document-item/document-item.component';
+import { ContactEditComponent } from './contacts/contact-edit/contact-edit.component';
 
 
 import { DropdownDirective } from './shared/dropdown.directive';
@@ -48,7 +49,8 @@ import { DocumentEditComponent } from './documents/document-edit/document-edit.c
     DocumentItemComponent,
     DropdownDirective,
     DocumentViewComponent,
-    DocumentEditComponent
+    DocumentEditComponent,
+    ContactEditComponent
   ],
   imports: [
     BrowserModule,

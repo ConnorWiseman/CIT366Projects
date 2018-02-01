@@ -1,14 +1,12 @@
-<a
-  href="#"
-  class="row align-items-center pt-3 pb-3 m-3 border rounded unstyled-link"
-  (click)="onSelected()">
-  <div class="col-9">
-    <h5>{{ contact.name }}</h5>
-  </div>
-  <div class="col-3 text-right">
+<div
+  routerLinkActive="active"
+  routerLink="/contacts/{{ contact.id }}"
+  class="row pt-3 pb-3 m-3 border rounded list-group-item clearfix">
+  <div class="col">
     <img
-      class="contact-image img-responsive"
+      class="contact-image img-responsive float-right"
       src="{{ contact.imageUrl }}"
       alt="{{ contact.name }}'s picture">
+    <h5>{{ contact.name }}</h5>
   </div>
-</a>
+</div>

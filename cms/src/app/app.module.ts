@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 
 
@@ -53,8 +54,9 @@ import { DocumentEditComponent } from './documents/document-edit/document-edit.c
     ContactEditComponent
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
-    AppRoutingModule
+    FormsModule
   ],
   providers: [
     ContactService,

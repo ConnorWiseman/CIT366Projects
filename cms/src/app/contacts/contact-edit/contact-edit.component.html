@@ -99,6 +99,19 @@
     </div>
   </div>
 
+  <div class="row" *ngIf="invalidGroupContact">
+    <div class="col">
+      <p class="alert alert-danger">Contact cannot be added to the group; it is already in the group, or is the same as the current contact.</p>
+    </div>
+  </div>
+
+  <!--
+    At some point there's supposed to be an error message in here, but it's not
+    present in the Lesson 7 files we were given to download and there are no
+    instructions in the assignment about how to add it or where. I have thus
+    improvised, and I hope my solution works!
+  -->
+
   <div class="row" *ngIf="!f.valid">
     <div class="col">
       <p class="alert alert-danger">The Contact name and email are required fields.</p>

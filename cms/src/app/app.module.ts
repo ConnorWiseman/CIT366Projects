@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
+import { DndModule } from 'ng2-dnd';
 
 
 import { AppComponent } from './app.component';
@@ -56,6 +57,7 @@ import { DocumentEditComponent } from './documents/document-edit/document-edit.c
   imports: [
     AppRoutingModule,
     BrowserModule,
+    DndModule.forRoot(),
     FormsModule
   ],
   providers: [

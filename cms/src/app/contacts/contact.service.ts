@@ -1,19 +1,41 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
+import { Http, Response } from '@angular/http';
+import 'rxjs/Rx';
 
 import { Contact } from './contact.model';
 import { MOCKCONTACTS } from './MOCKCONTACTS';
 
 @Injectable()
 export class ContactService {
+  jsonUrl: string = 'https://cit366-connorwiseman-cms.firebaseio.com/contacts.json';
   contactListChangedEvent: Subject<Contact[]> = new Subject<Contact[]>();
   contacts: Contact[] = [];
   maxContactId: number;
   @Output() contactSelectedEvent: EventEmitter<Contact> = new EventEmitter<Contact>();
 
-  constructor() {
-    this.contacts = MOCKCONTACTS;
-    this.maxContactId = this.getMaxId();
+  constructor(private http: Http) {
+    this.initContacts();
+  }
+
+  initContacts() {
+    this.http.get(this.jsonUrl)
+      .map((response: Response) => {
+        const contacts: Contact[] = response.json();
+        return contacts;
+      })
+      .subscribe((contacts: Contact[]) => {
+        this.contacts = contacts;
+        this.maxContactId = this.getMaxId();
+        this.contactListChangedEvent.next(this.getContacts());
+      });
+  }
+
+  storeContacts() {
+    this.http.put(this.jsonUrl, JSON.stringify(this.contacts))
+      .subscribe(() => {
+        this.contactListChangedEvent.next(this.getContacts());
+      });
   }
 
   getMaxId(): number {
@@ -43,7 +65,7 @@ export class ContactService {
     if (contact) {
       contact.id = String(++this.maxContactId);
       this.contacts.push(contact);
-      this.contactListChangedEvent.next(this.getContacts());
+      this.storeContacts();
     }
   }
 
@@ -52,7 +74,7 @@ export class ContactService {
     if (original && updated && (pos = this.contacts.indexOf(original)) >= 0) {
       updated.id = original.id;
       this.contacts[pos] = updated;
-      this.contactListChangedEvent.next(this.getContacts());
+      this.storeContacts();
     }
   }
 
@@ -60,7 +82,7 @@ export class ContactService {
     let pos;
     if (contact && (pos = this.contacts.indexOf(contact)) >= 0) {
       this.contacts.splice(pos, 1);
-      this.contactListChangedEvent.next(this.getContacts());
+      this.storeContacts();
     }
   }
 }

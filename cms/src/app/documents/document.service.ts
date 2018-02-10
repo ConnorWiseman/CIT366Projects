@@ -1,19 +1,41 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
+import { Http, Response } from '@angular/http';
+import 'rxjs/Rx';
 
 import { Document } from './document.model';
 import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
 
 @Injectable()
 export class DocumentService {
+  jsonUrl: string = 'https://cit366-connorwiseman-cms.firebaseio.com/documents.json';
   documentListChangedEvent: Subject<Document[]> = new Subject<Document[]>();
   documents: Document[] = [];
   maxDocumentId: number;
   @Output() documentSelectedEvent: EventEmitter<Document> = new EventEmitter<Document>();
 
-  constructor() {
-    this.documents = MOCKDOCUMENTS;
-    this.maxDocumentId = this.getMaxId();
+  constructor(private http: Http) {
+    this.initDocuments();
+  }
+
+  initDocuments() {
+    this.http.get(this.jsonUrl)
+      .map((response: Response) => {
+        const documents: Document[] = response.json();
+        return documents;
+      })
+      .subscribe((documents: Document[]) => {
+        this.documents = documents;
+        this.maxDocumentId = this.getMaxId();
+        this.documentListChangedEvent.next(this.getDocuments());
+      });
+  }
+
+  storeDocuments() {
+    this.http.put(this.jsonUrl, JSON.stringify(this.documents))
+      .subscribe(() => {
+        this.documentListChangedEvent.next(this.getDocuments());
+      });
   }
 
   getMaxId(): number {
@@ -43,7 +65,7 @@ export class DocumentService {
     if (document) {
       document.id = String(++this.maxDocumentId);
       this.documents.push(document);
-      this.documentListChangedEvent.next(this.getDocuments());
+      this.storeDocuments();
     }
   }
 
@@ -52,7 +74,7 @@ export class DocumentService {
     if (original && updated && (pos = this.documents.indexOf(original)) >= 0) {
       updated.id = original.id;
       this.documents[pos] = updated;
-      this.documentListChangedEvent.next(this.getDocuments());
+      this.storeDocuments();
     }
   }
 
@@ -60,7 +82,7 @@ export class DocumentService {
     let pos;
     if (document && (pos = this.documents.indexOf(document)) >= 0) {
       this.documents.splice(pos, 1);
-      this.documentListChangedEvent.next(this.getDocuments());
+      this.storeDocuments();
     }
   }
 

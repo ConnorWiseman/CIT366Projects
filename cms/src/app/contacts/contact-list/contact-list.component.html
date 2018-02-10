@@ -4,6 +4,22 @@
       <div class="col">
         <h3>Contacts</h3>
       </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="input-group">
+          <input
+            class="form-control d-inline-block"
+            type="text"
+            placeholder="Enter search value"
+            #searchBox
+            (keypress)="onKeyPress(searchBox.value)"/>
+          <i
+            class="fa fa-search border border-left-0 rounded-right p-2"
+            (click)="search(searchBox.value)"
+            ></i>
+        </div>
+      </div>
       <div class="col text-right">
         <a class="btn btn-success btn-sm mt-1" routerLink="new" role="button">New Contact</a>
       </div>
@@ -12,7 +28,7 @@
 
   <div class="card-block">
     <cms-contact-item
-      *ngFor="let currentContact of contacts"
+      *ngFor="let currentContact of contacts | contactsFilter:term"
       [contact]="currentContact"
       (contactSelected)="onContactSelected(currentContact)"
       dnd-draggable

@@ -4,7 +4,6 @@ import { Http, Response } from '@angular/http';
 import 'rxjs/Rx';
 
 import { Contact } from './contact.model';
-import { MOCKCONTACTS } from './MOCKCONTACTS';
 
 @Injectable()
 export class ContactService {

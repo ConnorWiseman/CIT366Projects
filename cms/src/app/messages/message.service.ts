@@ -3,7 +3,6 @@ import { Http, Response } from '@angular/http';
 import 'rxjs/Rx';
 
 import { Message } from './message.model';
-import { MOCKMESSAGES } from './MOCKMESSAGES';
 
 @Injectable()
 export class MessageService {

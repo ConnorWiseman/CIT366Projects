@@ -4,7 +4,6 @@ import { Http, Response } from '@angular/http';
 import 'rxjs/Rx';
 
 import { Document } from './document.model';
-import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
 
 @Injectable()
 export class DocumentService {

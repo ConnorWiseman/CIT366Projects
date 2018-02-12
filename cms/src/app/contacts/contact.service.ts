@@ -1,13 +1,13 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/Rx';
 
 import { Contact } from './contact.model';
 
 @Injectable()
 export class ContactService {
-  jsonUrl: string = 'https://cit366-connorwiseman-cms.firebaseio.com/contacts.json';
+  jsonUrl: string = 'http://localhost:3000/contacts';
   contactListChangedEvent: Subject<Contact[]> = new Subject<Contact[]>();
   contacts: Contact[] = [];
   maxContactId: number;
@@ -20,7 +20,7 @@ export class ContactService {
   initContacts() {
     this.http.get(this.jsonUrl)
       .map((response: Response) => {
-        const contacts: Contact[] = response.json();
+        const contacts: Contact[] = response.json().obj;
         return contacts;
       })
       .subscribe((contacts: Contact[]) => {
@@ -61,27 +61,74 @@ export class ContactService {
   }
 
   addContact(contact: Contact) {
-    if (contact) {
-      contact.id = String(++this.maxContactId);
-      this.contacts.push(contact);
-      this.storeContacts();
+    if (!contact) {
+      return;
     }
+
+    const headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+
+    contact.id = '';
+    const strContact = JSON.stringify(contact);
+
+    this.http.post(this.jsonUrl, strContact, { headers: headers })
+      .map((response: Response) => {
+        return response.json().obj;
+      })
+      .subscribe((contact: Contact) => {
+        this.contacts.push(contact);
+        this.contactListChangedEvent.next(this.getContacts());
+      });
   }
 
   updateContact(original: Contact, updated: Contact) {
-    let pos;
-    if (original && updated && (pos = this.contacts.indexOf(original)) >= 0) {
-      updated.id = original.id;
-      this.contacts[pos] = updated;
-      this.storeContacts();
+    if (!original || !updated) {
+      return;
     }
+
+    const pos = this.contacts.indexOf(original);
+    if (pos < 0) {
+      return;
+    }
+
+    const headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+
+    const strContact = JSON.stringify(updated);
+    console.log(updated);
+
+    this.http.patch(`${this.jsonUrl}/${original.id}`, strContact, { headers: headers })
+      .map((response: Response) => {
+        return response.json().obj;
+      })
+      .subscribe((contact: Contact) => {
+        console.log('angular result', contact);
+        this.contacts[pos] = contact;
+        this.contactListChangedEvent.next(this.getContacts());
+      });
   }
 
   deleteContact(contact: Contact) {
-    let pos;
-    if (contact && (pos = this.contacts.indexOf(contact)) >= 0) {
-      this.contacts.splice(pos, 1);
-      this.storeContacts();
+    if (!contact) {
+      return;
     }
+
+    const pos = this.contacts.indexOf(contact);
+    if (pos < 0) {
+      return;
+    }
+
+    this.http.delete(`${this.jsonUrl}/${contact.id}`)
+      .map((response: Response) => {
+        return response.json();
+      })
+      .subscribe((json) => {
+        if (json.message === 'Contact deleted') {
+          this.contacts.splice(pos, 1);
+          this.contactListChangedEvent.next(this.getContacts());
+        }
+      });
   }
 }

@@ -53,7 +53,7 @@ function deleteContact(res, contact) {
     }
 
     res.status(200).json({
-      contact: 'Contact deleted',
+      message: 'Contact deleted',
       obj: result
     });
   });
@@ -67,8 +67,10 @@ router.post('/', (req, res, next) => {
   let contact = new Contact({
     id: maxContactId,
     name: req.body.name,
-    description: req.body.description,
-    url: req.body.url
+    email: req.body.email,
+    phone: req.body.phone,
+    imageUrl: req.body.imageUrl,
+    group: req.body.group
   });
 
   saveContact(res, contact);
@@ -85,8 +87,11 @@ router.patch('/:id', (req, res, next) => {
       });
     }
 
-    contact.subject = req.body.subject;
-    contact.msgText = req.body.msgText;
+    contact.name = req.body.name;
+    contact.email = req.body.email;
+    contact.phone = req.body.phone;
+    contact.imageUrl = req.body.imageUrl;
+    contact.group = req.body.group;
 
     saveContact(res, contact);
   });

@@ -1,13 +1,13 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/Rx';
 
 import { Document } from './document.model';
 
 @Injectable()
 export class DocumentService {
-  jsonUrl: string = 'https://cit366-connorwiseman-cms.firebaseio.com/documents.json';
+  jsonUrl: string = 'http://localhost:3000/documents';
   documentListChangedEvent: Subject<Document[]> = new Subject<Document[]>();
   documents: Document[] = [];
   maxDocumentId: number;
@@ -20,7 +20,7 @@ export class DocumentService {
   initDocuments() {
     this.http.get(this.jsonUrl)
       .map((response: Response) => {
-        const documents: Document[] = response.json();
+        const documents: Document[] = response.json().obj;
         return documents;
       })
       .subscribe((documents: Document[]) => {
@@ -61,28 +61,73 @@ export class DocumentService {
   }
 
   addDocument(document: Document) {
-    if (document) {
-      document.id = String(++this.maxDocumentId);
-      this.documents.push(document);
-      this.storeDocuments();
+    if (!document) {
+      return;
     }
+
+    const headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+
+    document.id = '';
+    const strDocument = JSON.stringify(document);
+
+    this.http.post(this.jsonUrl, strDocument, { headers: headers })
+      .map((response: Response) => {
+        return response.json().obj;
+      })
+      .subscribe((document: Document) => {
+        this.documents.push(document);
+        this.documentListChangedEvent.next(this.getDocuments());
+      });
   }
 
   updateDocument(original: Document, updated: Document) {
-    let pos;
-    if (original && updated && (pos = this.documents.indexOf(original)) >= 0) {
-      updated.id = original.id;
-      this.documents[pos] = updated;
-      this.storeDocuments();
+    if (!original || !updated) {
+      return;
     }
+
+    const pos = this.documents.indexOf(original);
+    if (pos < 0) {
+      return;
+    }
+
+    const headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+
+    const strDocument = JSON.stringify(updated);
+
+    this.http.patch(`${this.jsonUrl}/${original.id}`, strDocument, { headers: headers })
+      .map((response: Response) => {
+        return response.json().obj;
+      })
+      .subscribe((document: Document) => {
+        this.documents[pos] = document;
+        this.documentListChangedEvent.next(this.getDocuments());
+      });
   }
 
   deleteDocument(document: Document) {
-    let pos;
-    if (document && (pos = this.documents.indexOf(document)) >= 0) {
-      this.documents.splice(pos, 1);
-      this.storeDocuments();
+    if (!document) {
+      return;
     }
+
+    const pos = this.documents.indexOf(document);
+    if (pos < 0) {
+      return;
+    }
+
+    this.http.delete(`${this.jsonUrl}/${document.id}`)
+      .map((response: Response) => {
+        return response.json();
+      })
+      .subscribe((json) => {
+        if (json.message === 'Document deleted') {
+          this.documents.splice(pos, 1);
+          this.documentListChangedEvent.next(this.getDocuments());
+        }
+      });
   }
 
 }

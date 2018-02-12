@@ -1,12 +1,12 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/Rx';
 
 import { Message } from './message.model';
 
 @Injectable()
 export class MessageService {
-  jsonUrl: string = 'https://cit366-connorwiseman-cms.firebaseio.com/messages.json';
+  jsonUrl: string = 'http://localhost:3000/messages';
   @Output() messageListChangedEvent: EventEmitter<Message[]> = new EventEmitter<Message[]>();
   messages: Message[] = [];
   maxMessageId: number;
@@ -18,7 +18,7 @@ export class MessageService {
   initMessages() {
     this.http.get(this.jsonUrl)
       .map((response: Response) => {
-        const messages: Message[] = response.json();
+        const messages: Message[] = response.json().obj;
         return messages;
       })
       .subscribe((messages: Message[]) => {
@@ -59,8 +59,25 @@ export class MessageService {
   }
 
   addMessage(message: Message) {
-    this.messages.push(message);
-    this.storeMessages();
+    if (!message) {
+      return;
+    }
+
+    const headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+
+    message.id = '';
+    const strMessage = JSON.stringify(message);
+
+    this.http.post(this.jsonUrl, strMessage, { headers: headers })
+      .map((response: Response) => {
+        return response.json().obj;
+      })
+      .subscribe((message: Message) => {
+        this.messages.push(message);
+        this.messageListChangedEvent.next(this.getMessages());
+      });
   }
 
 }

@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ElementRef, ViewChild }
 
 import { Message } from '../message.model';
 import { MessageService } from '../message.service';
+import { ContactService } from '../../contacts/contact.service';
 
 @Component({
   selector: 'cms-message-edit',
@@ -19,7 +20,8 @@ export class MessageEditComponent implements OnInit {
   // This part threw me for a loop. Naming it "currentSenderId" in the initial
   // instructions might be a helpful adjustment!
 
-  constructor(private messageService: MessageService) {
+  constructor(private messageService: MessageService,
+      private contactsService: ContactService) {
     this.currentId = this.messageService.getMaxId();
   }
 
@@ -28,8 +30,8 @@ export class MessageEditComponent implements OnInit {
   onSendMessage() {
     this.subject = this.subjectInputRef.nativeElement.value;
     this.msgText = this.messageInputRef.nativeElement.value;
-    this.messageService.addMessage(new Message(String(this.currentId++), this.subject,
-      this.msgText, this.currentSender));
+    this.messageService.addMessage(new Message(String(this.messageService.getMaxId()), this.subject,
+      this.msgText, this.contactsService.getContact(this.currentSender)));
     this.onClear();
   }
 

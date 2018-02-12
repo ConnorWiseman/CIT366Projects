@@ -1,4 +1,5 @@
 const express           = require('express');
+const Contact           = require('../models/contact');
 const Message           = require('../models/message');
 const sequenceGenerator = require('./sequenceGenerator');
 
@@ -6,7 +7,7 @@ const router = express.Router();
 
 
 function getMessages(req, res, next) {
-  Message.find().exec((err, messages) => {
+  Message.find().populate('sender').exec((err, messages) => {
     if (err) {
       return res.status(500).json({
         title: 'An error occurred',
@@ -22,6 +23,10 @@ function getMessages(req, res, next) {
 }
 
 function saveMessage(res, message) {
+  if (message && message.contact) {
+    message.contact = message.contact.id;
+  }
+
   message.save((err, result) => {
     if (err) {
       return res.status(500).json({
@@ -56,16 +61,27 @@ function deleteMessage(res, message) {
 router.get('/', getMessages);
 
 router.post('/', (req, res, next) => {
-  let maxMessageId = sequenceGenerator.nextId('messages');
+  Contact.findOne({ id: req.body.sender.id }, (err, sender) => {
+    if (err || !sender) {
+      return res.status(500).json({
+        title: 'Message sender not found',
+        error: {
+          message: 'Message sender not found'
+        }
+      });
+    }
 
-  let message = new Message({
-    id: maxMessageId,
-    name: req.body.name,
-    description: req.body.description,
-    url: req.body.url
-  });
+    let maxMessageId = sequenceGenerator.nextId('messages');
 
-  saveMessage(res, message);
+    let message = new Message({
+      id: maxMessageId,
+      msgText: req.body.msgText,
+      subject: req.body.subject,
+      sender: sender._id
+    });
+
+    saveMessage(res, message);
+  })
 });
 
 router.patch('/:id', (req, res, next) => {

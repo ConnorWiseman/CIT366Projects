@@ -34,6 +34,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { DocumentViewComponent } from './documents/document-view/document-view.component';
 import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
 import { ContactsFilterPipe } from './contacts/contacts-filter.pipe';
+import { MessagesComponent } from './messages/messages.component';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import { ContactsFilterPipe } from './contacts/contacts-filter.pipe';
     DocumentViewComponent,
     DocumentEditComponent,
     ContactEditComponent,
-    ContactsFilterPipe
+    ContactsFilterPipe,
+    MessagesComponent
   ],
   imports: [
     AppRoutingModule,

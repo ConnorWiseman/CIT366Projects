@@ -11,6 +11,9 @@ import { DocumentDetailComponent } from './documents/document-detail/document-de
 // I'm just going to use the MessageListComponent, since that's what we ended
 // up actually creating.
 import { MessageListComponent } from './messages/message-list/message-list.component';
+// Or not. Later on, this conflict in the instructions causes problems.
+// Super frustrating.
+import { MessagesComponent } from './messages/messages.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/documents', pathMatch: 'full' },
@@ -24,7 +27,7 @@ const routes: Routes = [
     { path: ':id', component: DocumentDetailComponent },
     { path: ':id/edit', component: DocumentEditComponent }
   ]},
-  { path: 'messages', component: MessageListComponent }
+  { path: 'messages', component: MessagesComponent }
 ];
 
 @NgModule({

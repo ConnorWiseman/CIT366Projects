@@ -6,7 +6,7 @@ import { Message } from './message.model';
 
 @Injectable()
 export class MessageService {
-  jsonUrl: string = 'http://localhost:3000/messages';
+  jsonUrl: string = 'http://localhost:3000/api/messages';
   @Output() messageListChangedEvent: EventEmitter<Message[]> = new EventEmitter<Message[]>();
   messages: Message[] = [];
   maxMessageId: number;

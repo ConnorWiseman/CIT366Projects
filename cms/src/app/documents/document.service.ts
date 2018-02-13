@@ -7,7 +7,7 @@ import { Document } from './document.model';
 
 @Injectable()
 export class DocumentService {
-  jsonUrl: string = 'http://localhost:3000/documents';
+  jsonUrl: string = 'http://localhost:3000/api/documents';
   documentListChangedEvent: Subject<Document[]> = new Subject<Document[]>();
   documents: Document[] = [];
   maxDocumentId: number;

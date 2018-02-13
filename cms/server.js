@@ -37,11 +37,11 @@ app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/', index);
 
 // ... ADD YOUR CODE TO MAP YOUR URL'S TO ROUTING FILES HERE ...
-app.use('/messages', messageRoutes);
-app.use('/contacts', contactRoutes);
-app.use('/documents', documentRoutes);
+app.use('/api/messages', messageRoutes);
+app.use('/api/contacts', contactRoutes);
+app.use('/api/documents', documentRoutes);
 app.use((req, res, next) => {
-  res.render('index');
+  res.redirect('/');
 });
 
 // Tell express to map all other non-defined routes back to the index page

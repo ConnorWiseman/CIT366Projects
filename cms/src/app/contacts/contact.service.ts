@@ -7,7 +7,7 @@ import { Contact } from './contact.model';
 
 @Injectable()
 export class ContactService {
-  jsonUrl: string = 'http://localhost:3000/contacts';
+  jsonUrl: string = 'http://localhost:3000/api/contacts';
   contactListChangedEvent: Subject<Contact[]> = new Subject<Contact[]>();
   contacts: Contact[] = [];
   maxContactId: number;

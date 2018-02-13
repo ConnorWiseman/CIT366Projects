@@ -6,19 +6,21 @@ import { HttpModule } from '@angular/http';
 
 
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './header.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { ContactListComponent } from './contacts/contact-list/contact-list.component';
 import { ContactDetailComponent } from './contacts/contact-detail/contact-detail.component';
-import { HeaderComponent } from './header.component';
 import { ContactItemComponent } from './contacts/contact-item/contact-item.component';
+import { ContactEditComponent } from './contacts/contact-edit/contact-edit.component';
 import { DocumentsComponent } from './documents/documents.component';
 import { DocumentListComponent } from './documents/document-list/document-list.component';
 import { DocumentDetailComponent } from './documents/document-detail/document-detail.component';
+import { DocumentItemComponent } from './documents/document-item/document-item.component';
+import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
+import { MessagesComponent } from './messages/messages.component';
 import { MessageItemComponent } from './messages/message-item/message-item.component';
 import { MessageEditComponent } from './messages/message-edit/message-edit.component';
 import { MessageListComponent } from './messages/message-list/message-list.component';
-import { DocumentItemComponent } from './documents/document-item/document-item.component';
-import { ContactEditComponent } from './contacts/contact-edit/contact-edit.component';
 
 
 import { DropdownDirective } from './shared/dropdown.directive';
@@ -31,33 +33,30 @@ import { WindowService } from './shared/window.service';
 
 
 import { AppRoutingModule } from './app-routing.module';
-import { DocumentViewComponent } from './documents/document-view/document-view.component';
-import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
 import { ContactsFilterPipe } from './contacts/contacts-filter.pipe';
-import { MessagesComponent } from './messages/messages.component';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    HeaderComponent,
     ContactsComponent,
     ContactListComponent,
     ContactDetailComponent,
-    HeaderComponent,
     ContactItemComponent,
+    ContactEditComponent,
     DocumentsComponent,
     DocumentListComponent,
     DocumentDetailComponent,
+    DocumentEditComponent,
+    DocumentItemComponent,
+    MessagesComponent,
     MessageItemComponent,
     MessageEditComponent,
     MessageListComponent,
-    DocumentItemComponent,
     DropdownDirective,
-    DocumentViewComponent,
-    DocumentEditComponent,
-    ContactEditComponent,
-    ContactsFilterPipe,
-    MessagesComponent
+    ContactsFilterPipe
   ],
   imports: [
     AppRoutingModule,

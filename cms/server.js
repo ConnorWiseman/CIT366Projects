@@ -40,9 +40,9 @@ app.use('/', index);
 app.use('/api/messages', messageRoutes);
 app.use('/api/contacts', contactRoutes);
 app.use('/api/documents', documentRoutes);
-app.use((req, res, next) => {
-  res.redirect('/');
-});
+// app.use((req, res, next) => {
+//   res.redirect('/');
+// });
 
 // Tell express to map all other non-defined routes back to the index page
 app.get('*', (req, res) => {

@@ -8,7 +8,20 @@
 }
 
 .dragMsg {
-  font-size: 1.75rem;
+  font-size: 1.25rem;
   color: darkgrey;
   margin-left: 3rem;
+  text-align: center;
+}
+
+#groupList {
+  width: 80%;
+}
+
+.delete-button {
+  float: right;
+  left: 4em;
+  position: relative;
+  top: -5em;
+  margin-bottom: -5em;
 }

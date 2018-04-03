@@ -97,14 +97,12 @@ export class ContactService {
     });
 
     const strContact = JSON.stringify(updated);
-    console.log(updated);
 
     this.http.patch(`${this.jsonUrl}/${original.id}`, strContact, { headers: headers })
       .map((response: Response) => {
         return response.json().obj;
       })
       .subscribe((contact: Contact) => {
-        console.log('angular result', contact);
         this.contacts[pos] = contact;
         this.contactListChangedEvent.next(this.getContacts());
       });
